@@ -56,6 +56,27 @@ def callback(call):
         bot.send_message(uid, "أرسل اسم المساق:")
         user_states[uid] = {"action": "wait_mat"}
         
+    elif call.data.startswith("view_"):
+        mat_key = call.data.split("_")[1]
+        mat = data["materials"][mat_key]
+        markup = InlineKeyboardMarkup()
+        for opt_name, link in mat.get("options", {}).items():
+            markup.add(InlineKeyboardButton(f"📂 {opt_name}", url=link))
+        
+        # إضافة خيار الإضافة للأدمن داخل المساق نفسه
+        if is_admin(uid):
+            markup.add(InlineKeyboardButton("➕ إضافة ملف لهذا المساق", callback_data=f"add_opt_{mat_key}"))
+            markup.add(InlineKeyboardButton("🔙 رجوع", callback_data="admin_panel"))
+        else:
+            markup.add(InlineKeyboardButton("🔙 رجوع", callback_data="start"))
+            
+        bot.edit_message_text(f"📚 مساق: {mat['name']}\nاختر الملف:", uid, call.message.message_id, reply_markup=markup)
+
+    elif call.data.startswith("add_opt_") and is_admin(uid):
+        mat_key = call.data.split("_")[2]
+        user_states[uid] = {"action": "wait_opt_name", "mat_key": mat_key}
+        bot.send_message(uid, "أرسل اسم الملف الجديد (مثلاً: ملخص):")
+
     elif call.data == "del_mat_list" and is_admin(uid):
         markup = InlineKeyboardMarkup()
         for k, v in data["materials"].items():
@@ -67,20 +88,8 @@ def callback(call):
         mat_key = call.data.split("_")[1]
         del data["materials"][mat_key]
         save_data(data)
-        bot.answer_callback_query(call.id, "✅ تم حذف المساق")
-        # العودة للوحة الإدارة
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("➕ إضافة مساق", callback_data="add_mat"))
-        markup.add(InlineKeyboardButton("🗑 حذف مساق", callback_data="del_mat_list"))
-        bot.edit_message_text("⚙️ لوحة التحكم:", uid, call.message.message_id, reply_markup=markup)
-    
-    elif call.data.startswith("view_"):
-        mat_key = call.data.split("_")[1]
-        mat = data["materials"][mat_key]
-        markup = InlineKeyboardMarkup()
-        for opt_name, link in mat.get("options", {}).items():
-            markup.add(InlineKeyboardButton(f"📂 {opt_name}", url=link))
-        bot.edit_message_text(f"📚 مساق: {mat['name']}\nاختر الملف:", uid, call.message.message_id, reply_markup=markup)
+        bot.answer_callback_query(call.id, "✅ تم الحذف")
+        bot.edit_message_text("⚙️ تم الحذف، عد للوحة الإدارة.", uid, call.message.message_id)
 
 @bot.message_handler(func=lambda m: m.chat.id in user_states)
 def handle_input(m):
@@ -92,19 +101,19 @@ def handle_input(m):
         key = str(len(data["materials"]) + 1)
         data["materials"][key] = {"name": m.text, "options": {}}
         save_data(data)
-        user_states[uid] = {"action": "wait_opt_name", "mat_key": key}
-        bot.send_message(uid, f"✅ تم إضافة مساق '{m.text}'.\nأرسل الآن اسم الملف (مثلاً: سلايدات):")
+        del user_states[uid]
+        bot.send_message(uid, f"✅ تم إضافة المساق '{m.text}' بنجاح.")
 
     elif state["action"] == "wait_opt_name":
         user_states[uid].update({"opt_name": m.text, "action": "wait_opt_link"})
-        bot.send_message(uid, "🔗 أرسل الرابط:")
+        bot.send_message(uid, "🔗 أرسل الرابط الخاص بهذا الملف:")
 
     elif state["action"] == "wait_opt_link":
         mat_key = state["mat_key"]
         data["materials"][mat_key]["options"][state["opt_name"]] = m.text
         save_data(data)
-        bot.send_message(uid, "✅ تم إضافة الملف بنجاح!")
         del user_states[uid]
+        bot.send_message(uid, "✅ تم إضافة الملف للمساق بنجاح!")
 
 # --- تشغيل Flask ---
 app = Flask('')

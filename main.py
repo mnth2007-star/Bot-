@@ -88,4 +88,11 @@ def handle_input(m):
     bot.send_message(m.chat.id, "✅ تم التنفيذ.")
     del user_states[m.chat.id]
 
+    save_data(data)
+    bot.send_message(m.chat.id, "✅ تم التنفيذ.")
+    del user_states[m.chat.id]
+
+# أضف السطر هنا:
+bot.remove_webhook()
 bot.infinity_polling()
+

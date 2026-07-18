@@ -95,4 +95,19 @@ def handle_input(m):
 # أضف السطر هنا:
 bot.remove_webhook()
 bot.infinity_polling()
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "البوت يعمل الآن!"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+# تشغيل خادم الويب في خلفية منفصلة
+t = Thread(target=run)
+t.start()
 

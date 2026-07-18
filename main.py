@@ -4,14 +4,14 @@ import os
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 # جلب التوكن والـ ID الخاص بك من الـ Environment Variables في Render
-# ضع هذا السطر في الكود الخاص بك
-BOT_TOKEN = "8887684391:AAE99eNdu-H2BIPljDLPy6AXtTK4JiRkkgl"
+#import os
+import telebot
 
-# ثم تأكد أن سطر تعريف البوت يستخدم هذا المتغير:
-bot = telebot.TeleBot(BOT_TOKEN)
+# قراءة التوكن والآيدي من الإعدادات التي وضعناها في موقع Render
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+ADMIN_ID = os.getenv('ADMIN_ID')
 
-ADMIN_ID = int(os.getenv('ADMIN_ID'))
-
+# تعريف البوت باستخدام المتغير الذي قرأناه
 bot = telebot.TeleBot(BOT_TOKEN)
 user_states = {}
 

@@ -1,21 +1,6 @@
 {
-  
-  {
-    "allowed_users": [
-        123456789,
-        987654321
-    ],
-    "admins": [
-        123456789
-    ],
+    "allowed_users": [8780214576],
+    "admins": [8780214576],
     "materials": {},
-    "users_profile": {
-        "987654321": {
-            "name": "أحمد",
-            "phone": "059xxxxxxx"
-        }
-    }
-}
-
-  
+    "users_profile": {}
 }

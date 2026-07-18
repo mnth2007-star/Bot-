@@ -4,7 +4,7 @@ import os
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # ضغ التوكن والـ ID الخاص بك هنا
-BOT_TOKEN = '8887684391:AAFDYqkIPq4FQX9y1QvHmBpqØR537DAtyUc'
+BOT_TOKEN = '8887684391:AAFDYqkIPq4fQX9y1QvHmBpq0R537DAtyUc'
 
 ADMIN_ID = 8780214576  # الـ ID الشخصي الخاص بك (المالك الأساسي)
 

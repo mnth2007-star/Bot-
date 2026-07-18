@@ -1,1 +1,6 @@
-{"admins": [8780214576], "banned_users": [], "materials": {}}
+{
+    "admins": [8780214576],
+    "managers": [],
+    "banned_users": [],
+    "materials": {}
+}

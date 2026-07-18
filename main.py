@@ -102,12 +102,10 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "البوت يعمل الآن!"
+    return "ok" # تقليل النص يجعل الرد أسرع
 
 def run():
     app.run(host='0.0.0.0', port=8080)
 
-# تشغيل خادم الويب في خلفية منفصلة
 t = Thread(target=run)
 t.start()
-

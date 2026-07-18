@@ -1,5 +1,21 @@
 {
-  "allowed_users": [],
-  "admins": [],
-  "materials": {}
+  
+  {
+    "allowed_users": [
+        123456789,
+        987654321
+    ],
+    "admins": [
+        123456789
+    ],
+    "materials": {},
+    "users_profile": {
+        "987654321": {
+            "name": "أحمد",
+            "phone": "059xxxxxxx"
+        }
+    }
+}
+
+  
 }

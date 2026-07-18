@@ -4,9 +4,11 @@ import os
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # ضغ التوكن والـ ID الخاص بك هنا
-BOT_TOKEN = '8887684391:AAFDYqkIPq4fQX9y1QvHmBpq0R537DAtyUc'
+import os
 
-ADMIN_ID = 8780214576  # الـ ID الشخصي الخاص بك (المالك الأساسي)
+# استبدل السطور القديمة بهذين السطرين تماماً:
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+ADMIN_ID = int(os.getenv('ADMIN_ID'))
 
 bot = telebot.TeleBot(BOT_TOKEN)
 user_states = {}
